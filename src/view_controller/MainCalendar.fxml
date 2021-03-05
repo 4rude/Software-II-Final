@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<!-- Controller definition was removed from the end of AnchorPane fx:controller="view_controller.MainCalendar" -->
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" layoutX="191.0" layoutY="43.0" text="Customer Mangement &amp; Appointment System">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Button layoutX="910.0" layoutY="759.0" mnemonicParsing="false" onMouseClicked="#clickExitSystem" text="Exit System" />
+      <Pane layoutX="142.0" layoutY="121.0" prefHeight="120.0" prefWidth="183.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="100.0">
+         <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickCreateCustomer" prefHeight="33.0" prefWidth="149.0" text="Create Customer" />
+            <Button layoutX="20.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#clickUpdateCustomer" prefHeight="33.0" prefWidth="149.0" text="Update Customer" />
+         </children>
+      </Pane>
+      <Pane layoutX="541.0" layoutY="121.0" prefHeight="120.0" prefWidth="315.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.rightAnchor="98.0">
+         <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="284.0" text="Upcoming Appointments:" underline="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="appointmentAlertTextField" layoutX="14.0" layoutY="44.0" prefHeight="57.0" prefWidth="284.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="341.0" layoutY="121.0" prefHeight="120.0" prefWidth="183.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="300.0">
+         <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickCreateAppointment" prefHeight="33.0" prefWidth="149.0" text="Create Appointment" />
+            <Button layoutX="17.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#clickUpdateAppointment" prefHeight="33.0" prefWidth="149.0" text="Update Appointment" />
+         </children>
+      </Pane>
+      <Pane layoutX="103.0" layoutY="256.0" prefHeight="57.0" prefWidth="672.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="100.0">
+         <children>
+            <Label layoutX="14.0" layoutY="12.0" prefHeight="33.0" prefWidth="246.0" text="Appointment Calendar">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="weeklyViewButton" layoutX="371.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#clickWeeklyView" text="Weekly View" />
+            <RadioButton fx:id="monthlyViewButton" layoutX="371.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#clickMonthlyView" text="Monthly View" />
+            <DatePicker fx:id="appointmentCalendar" layoutX="475.0" layoutY="9.0" prefHeight="39.0" prefWidth="183.0" />
+         </children>
+      </Pane>
+      <StackPane layoutX="7.0" layoutY="342.0" prefHeight="408.0" prefWidth="1036.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TableView fx:id="appointmentCalendarTable" prefHeight="417.0" prefWidth="900.0">
+              <columns>
+                <TableColumn fx:id="appointmentIDCol" prefWidth="107.0" text="Appointment ID" />
+                <TableColumn fx:id="titleCol" prefWidth="87.0" text="Title" />
+                  <TableColumn fx:id="descriptionCol" prefWidth="184.0" text="Description" />
+                  <TableColumn fx:id="locationCol" prefWidth="104.0" text="Location" />
+                  <TableColumn fx:id="contactCol" prefWidth="69.0" text="Contact" />
+                  <TableColumn fx:id="typeCol" prefWidth="91.0" text="Type" />
+                  <TableColumn fx:id="customerIDCol" prefWidth="103.0" text="Customer ID" />
+              </columns>
+            </TableView>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

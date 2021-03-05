@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<!-- Controller definition was removed from the end of AnchorPane fx:controller="view_controller.Login" -->
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="companyLoginHeaderLabel" contentDisplay="TOP" layoutX="51.0" layoutY="14.0" prefHeight="60.0" prefWidth="499.0" text="login_header" AnchorPane.bottomAnchor="326.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="48.0" />
+         </font>
+         <effect>
+            <Bloom threshold="0.13" />
+         </effect>
+      </Label>
+      <Label fx:id="usernameLabel" layoutX="130.0" layoutY="171.0" prefHeight="26.0" prefWidth="132.0" text="enter_usr">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordLabel" layoutX="130.0" layoutY="208.0" prefHeight="26.0" prefWidth="132.0" text="enter_pwd">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameTextBox" layoutX="269.0" layoutY="171.0" prefHeight="27.0" prefWidth="185.0" />
+      <TextField fx:id="passwordTextBox" layoutX="269.0" layoutY="208.0" prefHeight="27.0" prefWidth="185.0" />
+      <Button fx:id="loginButton" alignment="CENTER" contentDisplay="TOP" layoutX="269.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#clickLogin" prefHeight="27.0" prefWidth="93.0" text="login_lbl" textAlignment="CENTER" />
+      <Button fx:id="refreshButton" alignment="CENTER" contentDisplay="TOP" layoutX="367.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#clickRefresh" prefHeight="27.0" prefWidth="87.0" text="refresh_lbl" textAlignment="CENTER" />
+      <Label fx:id="languageLabel" layoutX="14.0" layoutY="369.0" text="language">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="detectedLanguageLabel" layoutX="80.0" layoutY="369.0" text="English" textFill="#d70202" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
