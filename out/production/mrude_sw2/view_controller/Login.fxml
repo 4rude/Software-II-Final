@@ -43,5 +43,10 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Label fx:id="loginErrorLabel" layoutX="269.0" layoutY="124.0" prefHeight="27.0" prefWidth="268.0" text="login_error_label" textFill="#d70000">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

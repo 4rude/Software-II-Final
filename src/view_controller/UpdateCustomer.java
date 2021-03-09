@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -93,6 +91,9 @@ public class UpdateCustomer implements Initializable {
     private Label deletedCustomerIDLabel;
 
     @FXML
+    private Label emptyFieldLabel;
+
+    @FXML
     void selectCountryName(ActionEvent event) {
         // Clear the list of filtered first level divisions
         filteredFLDs.clear();
@@ -113,7 +114,7 @@ public class UpdateCustomer implements Initializable {
                 filteredFLDs.add(fld.getDivision());
             }
         }
-        // Add the filteredFLDs list datat to the first level division drop down & set the default selection for the
+        // Add the filteredFLDs list data to the first level division drop down & set the default selection for the
         // drop down
         firstLevelDivisionDropDown.getItems().addAll(filteredFLDs);
         firstLevelDivisionDropDown.getSelectionModel().selectFirst();
@@ -151,7 +152,7 @@ public class UpdateCustomer implements Initializable {
         }
 
         // Show delete alert labels
-        deleteAlertLabel.setText(rb.getString("deleted_customer_alert"));
+        deleteAlertLabel.setText("The following customer was deleted");
         deletedCustomerIDLabel.setText("Customer ID: " + selectedCustomer.getCustomerID());
 
     }

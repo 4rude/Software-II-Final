@@ -95,6 +95,9 @@ public class UpdateAppointment implements Initializable {
     private Label timeOutOfOrderLabel;
 
     @FXML
+    private Label emptyFieldLabel;
+
+    @FXML
     void clickDeleteAppointment(MouseEvent event) {
         try{
             // Send selectedAppointment ID to the delete query in AppointmentDAO
@@ -167,14 +170,14 @@ public class UpdateAppointment implements Initializable {
         LocalTime businessCloseTime = LocalTime.of(3, 0); // 10PM EST == 3AM UTC
         if (startDT.toLocalTime().isBefore(businessOpenTime) && startDT.toLocalTime().isAfter(businessCloseTime)) {
             // Unavailable time, create bad start time alert label
-            timeBoundsErrorLabel.setText(rb.getString("time_out_of_bounds"));
+            timeBoundsErrorLabel.setText("Error: Start & End times must be within 8am - 10pm EST");
             approvedAppointment = false;
         } else if (endDT.toLocalTime().isBefore(businessOpenTime) && endDT.toLocalTime().isAfter(businessCloseTime)) {
             // Unavailable time, create bad end time alert label
-            timeBoundsErrorLabel.setText(rb.getString("time_out_of_bounds"));
+            timeBoundsErrorLabel.setText("Error: Start & End times must be within 8am - 10pm EST");
             approvedAppointment = false;
         } else if (endT.isBefore(startT)) {
-            timeOutOfOrderLabel.setText(rb.getString("times_out_of_order"));
+            timeOutOfOrderLabel.setText("Error: The start time must come before the end time");
             approvedAppointment = false;
         } else {
             approvedAppointment = true;
@@ -186,11 +189,11 @@ public class UpdateAppointment implements Initializable {
                 if (startDT.isAfter(appt.getStart()) && startDT.isBefore(appt.getEnd())) {
                     approvedAppointment = false;
                     // Display error label saying appt starts when another appt is going on
-                    apptOverlapErrorLabel.setText(rb.getString("appointment_overlap_error"));
+                    apptOverlapErrorLabel.setText("Error: Appointment overlaps with another");
                 } else if (endDT.isAfter(appt.getStart()) && endDT.isBefore(appt.getEnd())) {
                     approvedAppointment = false;
                     // Display error label saying appt ends during the time another appt is going on
-                    apptOverlapErrorLabel.setText(rb.getString("appointment_overlap_error"));
+                    apptOverlapErrorLabel.setText("Error: Appointment overlaps with another");
                 }
             }
         }

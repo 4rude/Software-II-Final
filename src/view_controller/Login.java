@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.User;
+import utilities.LoginIO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,23 +59,29 @@ public class Login implements Initializable {
     @FXML
     private Button loginButton;
 
-
     @FXML
     private Button refreshButton;
 
     @FXML
     private Label detectedLanguageLabel;
 
+    @FXML
+    private Label loginErrorLabel;
 
     @FXML
     void clickLogin(MouseEvent event) {
         int counter = 0;
+        // Reset error label
+        loginErrorLabel.setText("");
         // Compare the user data w/ the data from the list of user data
         // For user in allUsers
         for (User user: allUsers){
             // If the user/password is correct
             if (user.getUserName().equals(usernameTextBox.getText()) && user.getPassword().equals(passwordTextBox.getText())) {
                 try{
+                    // Add the attempt to the login_activity.txt file
+                    LoginIO.addLoginAttempt(usernameTextBox.getText(), passwordTextBox.getText(), true);
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
                     MainCalendar controller = new MainCalendar(user);
                     loader.setController(controller);
@@ -94,14 +101,10 @@ public class Login implements Initializable {
         }
         if (counter == allUsers.size()) {
             System.out.println("Not Accepted");
+            // Add the attempt to the login_activity.txt file
+            LoginIO.addLoginAttempt(usernameTextBox.getText(), passwordTextBox.getText(), true);
             // If it is the incorrect user/password
-            // *** THIS MUST BE CHANGED PRIOR TO SUBMISSION *** NO HARD CODED TRANSLATIONS FOR ERRORS
-            if (Locale.getDefault().getDisplayLanguage().equals("français")){
-                loginAlertMessage.setContentText("Identifiant ou mot de passe incorrect.");
-            } else {
-                loginAlertMessage.setContentText("Incorrect Username or Password.");
-            }
-            loginAlertMessage.show();
+            loginErrorLabel.setText(rb.getString("login_error_label"));
         }
     }
 
@@ -110,6 +113,8 @@ public class Login implements Initializable {
         // Refresh text boxes
         usernameTextBox.clear();
         passwordTextBox.clear();
+        loginErrorLabel.setText("");
+
     }
 
     // Initialize the class with the correct label and alert language
@@ -139,5 +144,6 @@ public class Login implements Initializable {
         companyLoginHeaderLabel.setText(rb.getString(companyLoginHeaderLabel.getText()));
         detectedLanguageLabel.setText(Locale.getDefault().getDisplayLanguage());
         languageLabel.setText(rb.getString(languageLabel.getText()));
+        loginErrorLabel.setText("");
     }
 }

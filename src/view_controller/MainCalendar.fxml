@@ -22,13 +22,13 @@
          </font>
       </Label>
       <Button layoutX="910.0" layoutY="759.0" mnemonicParsing="false" onMouseClicked="#clickExitSystem" text="Exit System" />
-      <Pane layoutX="142.0" layoutY="121.0" prefHeight="120.0" prefWidth="183.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="100.0">
+      <Pane layoutX="142.0" layoutY="121.0" prefHeight="120.0" prefWidth="250.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="100.0">
          <padding>
             <Insets left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickCreateCustomer" prefHeight="33.0" prefWidth="149.0" text="Create Customer" />
-            <Button layoutX="20.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#clickUpdateCustomer" prefHeight="33.0" prefWidth="149.0" text="Update Customer" />
+            <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickCreateCustomer" prefHeight="33.0" prefWidth="205.0" text="Create Customer" />
+            <Button layoutX="20.0" layoutY="58.0" mnemonicParsing="false" onMouseClicked="#clickUpdateCustomer" prefHeight="33.0" prefWidth="205.0" text="Update Customer" />
          </children>
       </Pane>
       <Pane layoutX="541.0" layoutY="121.0" prefHeight="120.0" prefWidth="315.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.rightAnchor="98.0">
@@ -42,15 +42,19 @@
                </font>
             </Label>
             <Label fx:id="appointmentAlertTextField" layoutX="14.0" layoutY="44.0" prefHeight="57.0" prefWidth="284.0" />
+            <Label fx:id="apptNotSelectedLabel" layoutX="-258.0" layoutY="88.0" prefHeight="33.0" prefWidth="246.0" textFill="#da0000" wrapText="true">
+               <font>
+                  <Font size="12.0" />
+               </font></Label>
          </children>
       </Pane>
-      <Pane layoutX="341.0" layoutY="121.0" prefHeight="120.0" prefWidth="183.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="300.0">
+      <Pane layoutX="361.0" layoutY="121.0" prefHeight="120.0" prefWidth="250.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="361.0">
          <padding>
             <Insets left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickCreateAppointment" prefHeight="33.0" prefWidth="149.0" text="Create Appointment" />
-            <Button layoutX="17.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#clickUpdateAppointment" prefHeight="33.0" prefWidth="149.0" text="Update Appointment" />
+            <Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickCreateAppointment" prefHeight="33.0" prefWidth="205.0" text="Create Appointment" />
+            <Button layoutX="17.0" layoutY="58.0" mnemonicParsing="false" onMouseClicked="#clickUpdateAppointment" prefHeight="33.0" prefWidth="205.0" text="Update Appointment" />
          </children>
       </Pane>
       <Pane layoutX="103.0" layoutY="256.0" prefHeight="57.0" prefWidth="672.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="100.0">
@@ -80,5 +84,13 @@
             </TableView>
          </children>
       </StackPane>
+      <Pane layoutX="781.0" layoutY="256.0" prefHeight="57.0" prefWidth="157.0" style="-fx-border-style: solid; -fx-border-radius: 4;">
+         <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Button layoutX="17.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#clickReports" prefHeight="33.0" prefWidth="126.0" text="Reports" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

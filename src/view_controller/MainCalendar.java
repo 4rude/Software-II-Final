@@ -1,17 +1,11 @@
 package view_controller;
 
 import DAO.AppointmentDAO;
-import DAO.UserDAO;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.fxml.LoadException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import model.Appointment;
 import model.User;
 
@@ -48,6 +41,9 @@ public class MainCalendar implements Initializable {
 
     @FXML
     private Label appointmentAlertTextField;
+
+    @FXML
+    private Label apptNotSelectedLabel;
 
     @FXML
     private TableView<Appointment> appointmentCalendarTable;
@@ -140,13 +136,6 @@ public class MainCalendar implements Initializable {
         } catch (IOException e) {
             System.out.println(e);
         }
-
-        // Alternative way to exit the system
-//        // Ends the JavaFX App. Preferred way to shut down a JavaFX application per the Oracle Docs.
-//        Platform.exit();
-//        // Shuts down the JVM.
-//        System.exit(0);
-
     }
 
     @FXML
@@ -169,7 +158,7 @@ public class MainCalendar implements Initializable {
 
             }
         }
-        //appointmentCalendarTable.setItems(filteredAppointments); ****************
+        // Repopulate the Appointment calendar table cells with up-to-date data
         appointmentCalendarTable.refresh();
     }
 
@@ -192,7 +181,7 @@ public class MainCalendar implements Initializable {
                 filteredAppointments.add(appointment);
             }
         }
-        // appointmentCalendarTable.setItems(filteredAppointments); ****************
+        // Repopulate the Appointment calendar table cells with up-to-date data
         appointmentCalendarTable.refresh();
 
     }
@@ -203,19 +192,25 @@ public class MainCalendar implements Initializable {
             // Get selected appointment from TableView
             Appointment selectedAppointment = appointmentCalendarTable.getSelectionModel().getSelectedItem();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view_controller/UpdateAppointment.fxml"), rb);
-            UpdateAppointment controller = new UpdateAppointment(selectedAppointment, appUser);
-            loader.setController(controller);
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
+            // If an appointment is not selected...
+            if (selectedAppointment == null) {
+                apptNotSelectedLabel.setText("You must selected an appointment from the table below.");
 
-            // Clear all appointments gathered from the SQL statement
-            allAppointments.clear();
+            } else { // An appointment is selected
+                // Load the UpdateAppointment ViewController
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view_controller/UpdateAppointment.fxml"), rb);
+                UpdateAppointment controller = new UpdateAppointment(selectedAppointment, appUser);
+                loader.setController(controller);
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.show();
 
+                // Clear all appointments gathered from the SQL statement
+                allAppointments.clear();
+            }
         } catch (IOException | SQLException e ) {
             System.out.println(e);
         }
@@ -239,14 +234,34 @@ public class MainCalendar implements Initializable {
         }
     }
 
+    @FXML
+    void clickReports(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Reports.fxml"), rb);
+            Reports controller = new Reports(appUser);
+            loader.setController(controller);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
 
+        // Clear the Observable Lists
         allAppointments.clear();
         filteredAppointments.clear();
 
+        // Query the DB for appointment data and store it in a ObservableList
         try {
             allAppointments.addAll(AppointmentDAO.getAllAppointments());
         } catch (SQLException throwables) {
@@ -409,9 +424,6 @@ public class MainCalendar implements Initializable {
                     appointmentAlertTextField.setText("Appointment starts soon:" + System.lineSeparator() +
                             "Appointment ID: " + appointment.getAppointmentID() + System.lineSeparator() +
                             "Appointment Date & Time: " + upcomingAppointment.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")));
-                } else { // REMOVE ELSE STATEMENT IN PRODUCTION CODE
-                    //System.out.println("Appt Start: " + appointment.getStart());
-                   // System.out.println("Current Time: " + currentDateTime.toString());
                 }
 
             }
@@ -419,7 +431,7 @@ public class MainCalendar implements Initializable {
     }
 
     public void setLanguageForLabelsAndAlerts() {
-        // Alter the labels and button text to be a variable which sits in the .properties file for english & french
+        apptNotSelectedLabel.setText("");
     }
 
 }

@@ -85,6 +85,9 @@ public class CreateCustomer implements Initializable {
     private ComboBox<String> countryDropDown;
 
     @FXML
+    private Label emptyFieldLabel;
+
+    @FXML
     void cancelCreateCustomer(MouseEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
