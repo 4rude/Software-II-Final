@@ -21,12 +21,14 @@ import utilities.LoginIO;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class Login implements Initializable {
 
     // Create user object to be used by the class
@@ -68,6 +70,9 @@ public class Login implements Initializable {
     @FXML
     private Label loginErrorLabel;
 
+    /**
+     * @param event
+     */
     @FXML
     void clickLogin(MouseEvent event) {
         int counter = 0;
@@ -83,7 +88,7 @@ public class Login implements Initializable {
                     LoginIO.addLoginAttempt(usernameTextBox.getText(), passwordTextBox.getText(), true);
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-                    MainCalendar controller = new MainCalendar(user);
+                    MainCalendar controller = new MainCalendar(user, null);
                     loader.setController(controller);
                     Parent root = loader.load();
                     Scene scene = new Scene(root);
@@ -108,6 +113,9 @@ public class Login implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void clickRefresh(MouseEvent event) {
         // Refresh text boxes
@@ -117,6 +125,10 @@ public class Login implements Initializable {
 
     }
 
+    /**
+     * @param location
+     * @param resources
+     */
     // Initialize the class with the correct label and alert language
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -130,11 +142,17 @@ public class Login implements Initializable {
         }
     }
 
+    /**
+     * @throws SQLException
+     */
     private void getUserData() throws SQLException {
         // Add all users to the allUsers list
         allUsers = UserDAO.getAllUsers();
     }
 
+    /**
+     *
+     */
     // Set all labels to default language
     private void setLabelAndAlertLanguage(){
         loginButton.setText(rb.getString(loginButton.getText()));

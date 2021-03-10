@@ -10,8 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class FirstLevelDivisionDAO {
 
+    /**
+     * @return ArrayList<FirstLevelDivision>
+     * @throws SQLException
+     */
     public static ArrayList<FirstLevelDivision> getAllFirstLevelDivisions() throws SQLException {
         // This CANNOT be created outside of this function. It will create duplicates when called more than once
         // within a controller.

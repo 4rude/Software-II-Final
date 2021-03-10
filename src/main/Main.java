@@ -6,13 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.User;
-import DAO.UserDAO;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class Main extends Application {
 
     /**
@@ -45,6 +45,9 @@ public class Main extends Application {
     }
 
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
 
         DBConnection.startConnection();

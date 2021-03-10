@@ -53,6 +53,6 @@
       <TextField fx:id="phoneNumberField" layoutX="175.0" layoutY="392.0" prefHeight="27.0" prefWidth="168.0" />
       <ComboBox fx:id="firstLevelDivisionDropDown" layoutX="175.0" layoutY="355.0" prefHeight="27.0" prefWidth="168.0" />
       <ComboBox fx:id="countryDropDown" layoutX="176.0" layoutY="282.0" onAction="#selectCountryName" prefHeight="27.0" prefWidth="168.0" />
-      <Label fx:id="emptyFieldLabel" layoutX="24.0" layoutY="440.0" prefHeight="37.0" prefWidth="196.0" textFill="#cd0101" />
+      <Label fx:id="emptyFieldLabel" layoutX="24.0" layoutY="440.0" prefHeight="50.0" prefWidth="196.0" textFill="#cd0101" wrapText="true" />
    </children>
 </AnchorPane>

@@ -30,6 +30,9 @@ import java.time.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class CreateAppointment implements Initializable {
     // Initialize the resource bundle which holds the Locale information
     ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
@@ -93,11 +96,14 @@ public class CreateAppointment implements Initializable {
     @FXML
     private Label emptyFieldLabel;
 
+    /**
+     * @param event
+     */
     @FXML
     void cancelCreateAppointment(MouseEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-            MainCalendar controller = new MainCalendar(user);
+            MainCalendar controller = new MainCalendar(user, null);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -111,6 +117,9 @@ public class CreateAppointment implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void createAppointment(MouseEvent event) {
         // Use LocalDateTime of() operation to combine LocalDate and LocalTime from the time & date comboBox + DatePicker
@@ -174,7 +183,24 @@ public class CreateAppointment implements Initializable {
                 }
             }
         }
-        if (approvedAppointment) { // No errors
+
+        // Determine if a text field is empty, and if it is, set the error label to the appropriate text and
+        // declare that the appointment is not approved
+        if (titleField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The title text field must not be empty.");
+            approvedAppointment = false;
+        } else if (descriptionField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The description text field must not be empty.");
+            approvedAppointment = false;
+        } else if (locationField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The location text field must not be empty.");
+            approvedAppointment = false;
+        } else if (typeField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The type text field must not be empty.");
+            approvedAppointment = false;
+        }
+
+        if (approvedAppointment) { // If no errors are detected
             try{
                 // Convert from UTC to computers default locale (CANNOT BE HARD CODED, CHANGE THIS)
                 LocalDateTime convertedStartDT = startDT.atZone(ZoneOffset.UTC).withZoneSameInstant(localTimeZoneID).toLocalDateTime();
@@ -189,7 +215,7 @@ public class CreateAppointment implements Initializable {
                 AppointmentDAO.createAppointment(newAppointment);
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-                MainCalendar controller = new MainCalendar(user);
+                MainCalendar controller = new MainCalendar(user, null);
                 loader.setController(controller);
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
@@ -205,6 +231,10 @@ public class CreateAppointment implements Initializable {
 
     }
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
@@ -213,10 +243,20 @@ public class CreateAppointment implements Initializable {
 
     }
 
-    public CreateAppointment(User user) throws SQLException {
+    /**
+     * CreateAppointment is a constructor for the CreateAppointment class. It takes in a User object that holds data of
+     * the User current logged in to this application.
+     *
+     * @param user
+     *
+     */
+    public CreateAppointment(User user) {
         this.user = user;
     }
 
+    /**
+     *
+     */
     private void initializeDataFields() {
         // Handle SQL exceptions when using DAO functions
         try {
@@ -275,6 +315,9 @@ public class CreateAppointment implements Initializable {
 
     }
 
+    /**
+     * This method clears all data current existing in the error labels on the CreateAppointment jfx scene.
+     */
     private void initializeErrorLabels() {
         timeBoundsErrorLabel.setText("");
         apptOverlapErrorLabel.setText("");

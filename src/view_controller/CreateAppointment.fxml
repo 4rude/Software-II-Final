@@ -89,6 +89,6 @@
       <Label fx:id="timeBoundsErrorLabel" layoutX="220.0" layoutY="91.0" prefHeight="27.0" prefWidth="329.0" textFill="#dd0000" />
       <Label fx:id="apptOverlapErrorLabel" layoutX="221.0" layoutY="74.0" prefHeight="27.0" prefWidth="329.0" textFill="#dd0000" />
       <Label fx:id="timeOutOfOrderLabel" layoutX="220.0" layoutY="113.0" prefHeight="17.0" prefWidth="329.0" textFill="#dd0000" />
-      <Label fx:id="emptyFieldLabel" layoutX="355.0" layoutY="300.0" prefHeight="37.0" prefWidth="196.0" textFill="#cd0101" />
+      <Label fx:id="emptyFieldLabel" layoutX="355.0" layoutY="300.0" prefHeight="45.0" prefWidth="196.0" textFill="#cd0101" wrapText="true" />
    </children>
 </AnchorPane>

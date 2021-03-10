@@ -3,17 +3,22 @@ package DAO;
 import database.DBConnection;
 import database.DBQuery;
 import model.Country;
-import model.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class CountryDAO {
 
+    /**
+     * @return ArrayList<Country>
+     * @throws SQLException
+     */
     public static ArrayList<Country> getAllCountries() throws SQLException {
 
         // This CANNOT be created outside of this function. It will create duplicates when called more than once

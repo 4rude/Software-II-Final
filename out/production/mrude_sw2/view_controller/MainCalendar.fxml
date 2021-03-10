@@ -42,10 +42,11 @@
                </font>
             </Label>
             <Label fx:id="appointmentAlertTextField" layoutX="14.0" layoutY="44.0" prefHeight="57.0" prefWidth="284.0" />
-            <Label fx:id="apptNotSelectedLabel" layoutX="-258.0" layoutY="88.0" prefHeight="33.0" prefWidth="246.0" textFill="#da0000" wrapText="true">
+            <Label fx:id="apptNotSelectedLabel" layoutX="-258.0" layoutY="88.0" prefHeight="33.0" prefWidth="240.0" textFill="#da0000" wrapText="true">
                <font>
                   <Font size="12.0" />
-               </font></Label>
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="361.0" layoutY="121.0" prefHeight="120.0" prefWidth="250.0" style="-fx-border-style: solid; -fx-border-radius: 4;" AnchorPane.leftAnchor="361.0">
@@ -92,5 +93,6 @@
             <Button layoutX="17.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#clickReports" prefHeight="33.0" prefWidth="126.0" text="Reports" />
          </children>
       </Pane>
+      <Label fx:id="appointmentDeletedLabel" layoutX="100.0" layoutY="319.0" prefHeight="17.0" prefWidth="672.0" textFill="#d30000" />
    </children>
 </AnchorPane>

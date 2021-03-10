@@ -27,6 +27,9 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class UpdateCustomer implements Initializable {
     // Initialize the resource bundle which holds the Locale information
     ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
@@ -93,6 +96,9 @@ public class UpdateCustomer implements Initializable {
     @FXML
     private Label emptyFieldLabel;
 
+    /**
+     * @param event
+     */
     @FXML
     void selectCountryName(ActionEvent event) {
         // Clear the list of filtered first level divisions
@@ -120,11 +126,14 @@ public class UpdateCustomer implements Initializable {
         firstLevelDivisionDropDown.getSelectionModel().selectFirst();
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void cancelUpdateCustomer(MouseEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-            MainCalendar controller = new MainCalendar(user);
+            MainCalendar controller = new MainCalendar(user, null);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -138,67 +147,122 @@ public class UpdateCustomer implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void deleteSelectedCustomer(MouseEvent event) {
         Customer selectedCustomer = customerListTable.getSelectionModel().getSelectedItem();
         clearTextFields();
 
-        // Delete all appointments related to the selected customers and then delete the selected customer
-        try {
-            AppointmentDAO.deleteAllAppointments(selectedCustomer.getCustomerID());
-            CustomerDAO.deleteCustomer(selectedCustomer.getCustomerID());
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        // Show delete alert labels
-        deleteAlertLabel.setText("The following customer was deleted");
-        deletedCustomerIDLabel.setText("Customer ID: " + selectedCustomer.getCustomerID());
-
-    }
-
-    @FXML
-    void updateCustomer(MouseEvent event) {
-        // Create customer data using data from customer fields
-        int customerID = Integer.parseInt(customerIDField.getText());
-        String customerName = nameField.getText();
-        String customerAddress = addressField.getText();
-        String customerCountry = countryDropDown.getValue();
-        String customerPostalCode = postalCodeField.getText();
-        String customerFirstLevelDivision = firstLevelDivisionDropDown.getValue();
-        int customerFLD = 0;
-        for (FirstLevelDivision fld: allFLDs) {
-            if (customerFirstLevelDivision.equalsIgnoreCase(fld.getDivision())) {
-                customerFLD = fld.getDivisionID();
+        // If no customer is selected from the table...
+        if (selectedCustomer == null) {
+            deleteAlertLabel.setText("You must selected a customer to be deleted from the table.");
+        } else { // A customer is selected...
+            // Delete all appointments related to the selected customers and then delete the selected customer
+            try {
+                AppointmentDAO.deleteAllAppointments(selectedCustomer.getCustomerID());
+                CustomerDAO.deleteCustomer(selectedCustomer.getCustomerID());
+                allCustomers = FXCollections.observableArrayList(CustomerDAO.getAllCustomers());
+            } catch (SQLException e) {
+                System.out.println(e);
             }
-        }
-        String customerPhoneNumber = phoneNumberField.getText();
-        String lastUpdatedBy = user.getUserName();
-        LocalDateTime emptyLDT = LocalDateTime.now(); // Empty date time to fill up customer object
 
-        // Create customer object and call DAO function to update the selected customer
-        try {
-            Customer customer = new Customer(customerID, customerName, customerAddress, customerPostalCode, customerPhoneNumber, emptyLDT, "", emptyLDT, lastUpdatedBy, customerFLD);
-            CustomerDAO.updateCustomer(customer);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+            // Show delete alert labels
+            deleteAlertLabel.setText("The following customer was deleted");
+            deletedCustomerIDLabel.setText("Customer ID: " + selectedCustomer.getCustomerID());
 
-        // Update the data holding arrays, clear the fields, and re-initialize the customer table
-        try {
-            initializeDataFields();
-            clearTextFields();
+            // Repopulate the customer table with up to date information
             customerListTable.setItems(allCustomers);
             customerListTable.refresh();
-        } catch (SQLException e) {
-            System.out.println(e);
         }
     }
 
+    /**
+     * @param event
+     */
+    @FXML
+    void updateCustomer(MouseEvent event) {
+        // Get the selected customer to be updated
+        Customer selectedCustomer = customerListTable.getSelectionModel().getSelectedItem();
+
+        // If no customer is selected...
+        if (selectedCustomer == null) {
+            emptyFieldLabel.setText("You must selected a customer from the customer table.");
+        } else { // If a customer is selected...
+            // Create a boolean to hold a flag for customer approval
+            boolean approvedCustomer = true;
+            // Create customer data using data from customer fields
+            int customerID = Integer.parseInt(customerIDField.getText());
+            String customerName = nameField.getText();
+            String customerAddress = addressField.getText();
+            String customerCountry = countryDropDown.getValue();
+            String customerPostalCode = postalCodeField.getText();
+            String customerFirstLevelDivision = firstLevelDivisionDropDown.getValue();
+            int customerFLD = 0;
+            for (FirstLevelDivision fld: allFLDs) {
+                if (customerFirstLevelDivision.equalsIgnoreCase(fld.getDivision())) {
+                    customerFLD = fld.getDivisionID();
+                }
+            }
+            String customerPhoneNumber = phoneNumberField.getText();
+            String lastUpdatedBy = user.getUserName();
+            LocalDateTime emptyLDT = LocalDateTime.now(); // Empty date time to fill up customer object
+
+            // Determine if a text field is empty, and if it is, set the error label to the appropriate text and
+            // declare that the customer is not approved
+            if (nameField.getText().trim().isEmpty()) {
+                emptyFieldLabel.setText("The customer name text field must not be empty.");
+                approvedCustomer = false;
+            } else if (addressField.getText().trim().isEmpty()) {
+                emptyFieldLabel.setText("The address text field must not be empty.");
+                approvedCustomer = false;
+            } else if (postalCodeField.getText().trim().isEmpty()) {
+                emptyFieldLabel.setText("The postal code text field must not be empty.");
+                approvedCustomer = false;
+            } else if (phoneNumberField.getText().trim().isEmpty()) {
+                emptyFieldLabel.setText("The phone number text field must not be empty.");
+                approvedCustomer = false;
+            }
+
+
+            if (approvedCustomer) { // No errors detected in data
+                // Create customer object and call DAO function to update the selected customer
+                try {
+                    Customer customer = new Customer(customerID, customerName, customerAddress, customerPostalCode, customerPhoneNumber, emptyLDT, "", emptyLDT, lastUpdatedBy, customerFLD);
+                    CustomerDAO.updateCustomer(customer);
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+                // Update the data holding arrays, clear the fields, and re-initialize the customer table
+                try {
+                    initializeDataFields();
+                    clearTextFields();
+                    customerListTable.setItems(allCustomers);
+                    customerListTable.refresh();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+            }
+        }
+    }
+
+    /**
+     * This is the contructor for the UpdateCustomer class. On creation it takes in a user class so user data can be
+     * passed to different ViewControllers within this application.
+     *
+     * @param user
+     */
     public UpdateCustomer(User user) {
         this.user = user;
     }
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
@@ -214,6 +278,9 @@ public class UpdateCustomer implements Initializable {
 
     }
 
+    /**
+     * @throws SQLException
+     */
     private void initializeDataFields() throws SQLException {
         // Use a try/catch to query data for the customer, country, and first level division tables. Then add the data
         // to its respective Observable List
@@ -226,14 +293,21 @@ public class UpdateCustomer implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     private void initializeErrorLabels() {
         // Handle if a Customer is not selected from the TableView
         // Handle all fields must be complete "please complete all fields"
         deleteAlertLabel.setText("");
         deletedCustomerIDLabel.setText("");
+        emptyFieldLabel.setText("");
 
     }
 
+    /**
+     *
+     */
     private void initializeCustomerTable() {
         // Set the values for the Appointment Calendar TableView columns
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -252,9 +326,9 @@ public class UpdateCustomer implements Initializable {
 
     }
 
-    /*
+    /**
      * @param <T>
-     * @return TableColumn
+     * @return TableColumn<T, Integer>
      */
     private <T> TableColumn<T, Integer> formatFirstLevelDivisionColumn(){
         // Create a TableColumn that accepts a generic type of object and a value of Integer
@@ -282,9 +356,10 @@ public class UpdateCustomer implements Initializable {
         return firstLevelDivisionColumn;
     }
 
-    /*
+
+    /**
      * @param <T>
-     * @return TableColumn
+     * @return TableColumn<T, Integer>
      */
     private <T> TableColumn<T, Integer> formatCountryColumn(){
         // Create a TableColumn that accepts a generic type of object
@@ -319,6 +394,9 @@ public class UpdateCustomer implements Initializable {
         return countryCol;
     }
 
+    /**
+     *
+     */
     private void initializeRowEvent() {
         customerListTable.setRowFactory(customerTableView -> {
             TableRow<Customer> row = new TableRow<>();
@@ -334,6 +412,9 @@ public class UpdateCustomer implements Initializable {
         });
     }
 
+    /**
+     * @param selectedCustomer
+     */
     private void fillTextFields(Customer selectedCustomer) {
         // Update all Observable Lists with DB data
         try {
@@ -378,6 +459,9 @@ public class UpdateCustomer implements Initializable {
         postalCodeField.setText(selectedCustomer.getPostalCode());
     }
 
+    /**
+     * This method clears all data current existing in the fields and drop downs on the jfx scene.
+     */
     private void clearTextFields() {
         // Clear all the editable/selectable fields
         nameField.clear();

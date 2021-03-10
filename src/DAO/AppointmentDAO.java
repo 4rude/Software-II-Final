@@ -7,8 +7,7 @@ import model.Appointment;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.TimeZone;
+
 
 /**
  * @author matt
@@ -21,6 +20,10 @@ import java.util.TimeZone;
 public class AppointmentDAO {
 
 
+    /**
+     * @return ArrayList<Appointment>
+     * @throws SQLException
+     */
     public static ArrayList<Appointment> getAllAppointments() throws SQLException {
 
         // This CANNOT be created outside of this function. It will create duplicates when called more than once
@@ -70,6 +73,10 @@ public class AppointmentDAO {
         return allAppointments;
     }
 
+    /**
+     * @param appt
+     * @throws SQLException
+     */
     public static void updateAppointment(Appointment appt) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -100,6 +107,10 @@ public class AppointmentDAO {
         ps.execute();
     }
 
+    /**
+     * @param appt
+     * @throws SQLException
+     */
     public static void createAppointment(Appointment appt) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -130,6 +141,10 @@ public class AppointmentDAO {
         ps.execute();
     }
 
+    /**
+     * @param appointmentID
+     * @throws SQLException
+     */
     public static void deleteAppointment(int appointmentID) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -148,6 +163,10 @@ public class AppointmentDAO {
         ps.execute();
     }
 
+    /**
+     * @param CustomerID
+     * @throws SQLException
+     */
     public static void deleteAllAppointments(int CustomerID) throws SQLException {
         // Deletes all appointments that a customer has. Must be done before a customer is deleted.
         Connection conn = DBConnection.getConnection();

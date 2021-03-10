@@ -25,6 +25,9 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ *
+ */
 public class Reports {
     // Initialize the resource bundle which holds the Locale information
     ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
@@ -34,11 +37,14 @@ public class Reports {
     @FXML
     private TextArea reportTextArea;
 
+    /**
+     * @param event
+     */
     @FXML
     void exitReportScreen(MouseEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-            MainCalendar controller = new MainCalendar(user);
+            MainCalendar controller = new MainCalendar(user, null);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -52,6 +58,9 @@ public class Reports {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void generateReportOne(MouseEvent event) {
         // Store all data in String format to be added to the textArea
@@ -104,6 +113,9 @@ public class Reports {
         reportTextArea.appendText(dataStore);
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void generateReportThree(MouseEvent event) {
         // Add a string as a header for the textArea
@@ -120,6 +132,9 @@ public class Reports {
 
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void generateReportTwo(MouseEvent event) {
         // Create string to hold queried data
@@ -161,6 +176,9 @@ public class Reports {
         reportTextArea.appendText(queryData);
     }
 
+    /**
+     * @param user
+     */
     public Reports(User user) {
         this.user = user;
     }

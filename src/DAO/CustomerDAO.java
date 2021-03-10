@@ -2,16 +2,21 @@ package DAO;
 
 import database.DBConnection;
 import database.DBQuery;
-import model.Appointment;
 import model.Customer;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class CustomerDAO {
 
-
+    /**
+     * @return ArrayList<Customer>
+     * @throws SQLException
+     */
     public static ArrayList<Customer> getAllCustomers() throws SQLException {
         // This CANNOT be created outside of this function. It will create duplicates when called more than once
         // within a controller.
@@ -55,6 +60,10 @@ public class CustomerDAO {
         return allCustomers;
     }
 
+    /**
+     * @param customer
+     * @throws SQLException
+     */
     public static void updateCustomer(Customer customer) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -80,6 +89,10 @@ public class CustomerDAO {
         ps.execute();
     }
 
+    /**
+     * @param customer
+     * @throws SQLException
+     */
     public static void createCustomer(Customer customer) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -105,6 +118,10 @@ public class CustomerDAO {
         ps.execute();
     }
 
+    /**
+     * @param customerID
+     * @throws SQLException
+     */
     public static void deleteCustomer(int customerID) throws SQLException {
         Connection conn = DBConnection.getConnection();
 

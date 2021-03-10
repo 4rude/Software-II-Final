@@ -36,6 +36,9 @@ public class MainCalendar implements Initializable {
     // Create user object to pass through ViewControllers
     private User appUser;
 
+    // Create appointment object to hold deleted appointment data
+    private Appointment deletedAppointment = null;
+
     // Initialize the resource bundle which holds the Locale information
     private ResourceBundle rb;
 
@@ -78,10 +81,22 @@ public class MainCalendar implements Initializable {
     @FXML
     private DatePicker appointmentCalendar;
 
-    public MainCalendar(User user) throws SQLException {
+    @FXML
+    private Label appointmentDeletedLabel;
+
+    /**
+     * @param user
+     * @param appt
+     * @throws SQLException
+     */
+    public MainCalendar(User user, Appointment appt) throws SQLException {
         this.appUser = user;
+        this.deletedAppointment = appt;
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void clickCreateAppointment(MouseEvent event) {
         try {
@@ -95,11 +110,14 @@ public class MainCalendar implements Initializable {
             stage.setResizable(false);
             stage.show();
 
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void clickCreateCustomer(MouseEvent event) {
         try {
@@ -118,6 +136,10 @@ public class MainCalendar implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     void clickExitSystem(MouseEvent event) throws SQLException {
         try {
@@ -138,6 +160,10 @@ public class MainCalendar implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     void clickMonthlyView(MouseEvent event) throws SQLException {
         // Unset the weekly view radio button and keep monthly view set
@@ -162,6 +188,10 @@ public class MainCalendar implements Initializable {
         appointmentCalendarTable.refresh();
     }
 
+    /**
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     void clickWeeklyView(MouseEvent event) throws SQLException {
         // Unset the monthly view radio button and keep weekly view set
@@ -186,6 +216,9 @@ public class MainCalendar implements Initializable {
 
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void clickUpdateAppointment(MouseEvent event) {
         try {
@@ -216,6 +249,9 @@ public class MainCalendar implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void clickUpdateCustomer(MouseEvent event) {
         try {
@@ -234,6 +270,9 @@ public class MainCalendar implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void clickReports(MouseEvent event) {
         try {
@@ -253,6 +292,10 @@ public class MainCalendar implements Initializable {
     }
 
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
@@ -322,9 +365,18 @@ public class MainCalendar implements Initializable {
             throwables.printStackTrace();
         }
 
+        // If appointment in constructor is not null... set label text to Appt ID and Appt Type Cancelled
+        if (deletedAppointment != null) {
+            appointmentDeletedLabel.setText("*Appointment Cancelled* || Appointment ID: " +
+                    deletedAppointment.getAppointmentID() + " || Appointment Type: " + deletedAppointment.getType() +
+                    " ||");
+        }
 
     }
 
+    /**
+     * @throws SQLException
+     */
     private void generateAppointmentCalendar() throws SQLException {
         // Set the values for the Appointment Calendar TableView columns
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
@@ -345,9 +397,9 @@ public class MainCalendar implements Initializable {
         appointmentCalendarTable.refresh();
     }
 
-    /*
-    * @param <T>
-     * @return TableColumn
+    /**
+     * @param <T>
+     * @return TableColumn<T, LocalDateTime>
      */
     private <T> TableColumn<T, LocalDateTime> formatStartDateTime(){
         // Create a TableColumn that accepts a generic type of object
@@ -372,9 +424,9 @@ public class MainCalendar implements Initializable {
         return startDateTimeCol;
     }
 
-    /*
+    /**
      * @param <T>
-     * @return TableColumn
+     * @return TableColumn<T, LocalDateTime>
      */
     private <T> TableColumn<T, LocalDateTime> formatEndDateTime(){
         TableColumn<T, LocalDateTime> endDateTimeCol = new TableColumn("End Date & Time");
@@ -397,7 +449,10 @@ public class MainCalendar implements Initializable {
         return endDateTimeCol;
     }
 
-    public void initializeDefaultCalendarSettings() { // Issue is found here??
+    /**
+     *
+     */
+    public void initializeDefaultCalendarSettings() {
         // Default near appointment alert settings
         appointmentAlertTextField.setText("None detected");
         // Get the current time and put it into a LocalDateTime object
@@ -430,8 +485,13 @@ public class MainCalendar implements Initializable {
         }
     }
 
+    /**
+     * This method clears all data current existing in the error labels on the MainCalendar jfx scene.
+     */
     public void setLanguageForLabelsAndAlerts() {
         apptNotSelectedLabel.setText("");
+        appointmentDeletedLabel.setText("");
+
     }
 
 }

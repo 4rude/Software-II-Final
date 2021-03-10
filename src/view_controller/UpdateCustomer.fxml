@@ -53,9 +53,9 @@
       <TextField fx:id="phoneNumberField" layoutX="177.0" layoutY="374.0" prefHeight="27.0" prefWidth="168.0" />
       <ComboBox fx:id="firstLevelDivisionDropDown" layoutX="177.0" layoutY="337.0" prefHeight="27.0" prefWidth="168.0" />
       <ComboBox fx:id="countryDropDown" layoutX="178.0" layoutY="264.0" onAction="#selectCountryName" prefHeight="27.0" prefWidth="168.0" />
-      <Button layoutX="452.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#deleteSelectedCustomer" prefHeight="27.0" prefWidth="161.0" text="Delete Slected Customer" />
-      <Label fx:id="deleteAlertLabel" layoutX="623.0" layoutY="427.0" prefHeight="27.0" prefWidth="246.0" />
-      <Label fx:id="deletedCustomerIDLabel" layoutX="623.0" layoutY="454.0" prefHeight="17.0" prefWidth="126.0" />
-      <Label fx:id="emptyFieldLabel" layoutX="26.0" layoutY="417.0" prefHeight="37.0" prefWidth="196.0" textFill="#cd0101" />
+      <Button layoutX="452.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#deleteSelectedCustomer" prefHeight="27.0" prefWidth="161.0" text="Delete Selected Customer" />
+      <Label fx:id="deleteAlertLabel" layoutX="623.0" layoutY="427.0" prefHeight="33.0" prefWidth="283.0" textFill="#c30000" wrapText="true" />
+      <Label fx:id="deletedCustomerIDLabel" layoutX="623.0" layoutY="464.0" prefHeight="17.0" prefWidth="176.0" textFill="#c30000" wrapText="true" />
+      <Label fx:id="emptyFieldLabel" layoutX="26.0" layoutY="417.0" prefHeight="48.0" prefWidth="196.0" textFill="#cd0101" wrapText="true" />
    </children>
 </AnchorPane>

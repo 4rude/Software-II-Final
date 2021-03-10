@@ -4,11 +4,19 @@ import java.io.*;
 import java.time.Instant;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class LoginIO {
     // Get the location of the login_activity file
     //public static URL fileURL = LoginIO.class.getResource("/login_activity.txt");
     public static File findFile = new File("../login_activity.txt");
 
+    /**
+     * @param userName
+     * @param userPassword
+     * @param loginAttemptSuccess
+     */
     // public static Method that adds login attempts to login_activity.txt file in src folder
     public static void addLoginAttempt(String userName, String userPassword, boolean loginAttemptSuccess) {
         try {
@@ -39,6 +47,9 @@ public class LoginIO {
         }
     }
 
+    /**
+     * @return String
+     */
     // public static String method that gets user attempts from login_activity.txt file in src folder
     // Created for user in report #3
     public static String getLoginAttempts() {

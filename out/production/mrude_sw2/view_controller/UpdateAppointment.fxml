@@ -87,8 +87,9 @@
       <ComboBox fx:id="startTimeComboBox" layoutX="390.0" layoutY="151.0" prefHeight="27.0" prefWidth="115.0" />
       <ComboBox fx:id="endTimeComboBox" layoutX="390.0" layoutY="184.0" prefHeight="27.0" prefWidth="115.0" />
       <Button layoutX="81.0" layoutY="340.0" mnemonicParsing="false" onMouseClicked="#clickDeleteAppointment" text="Delete Appointment" />
-      <Label fx:id="timeBoundsErrorLabel" layoutX="210.0" layoutY="81.0" prefHeight="27.0" prefWidth="329.0" text="time_out_of_bounds" textFill="#dd0000" />
-      <Label fx:id="apptOverlapErrorLabel" layoutX="211.0" layoutY="63.0" prefHeight="27.0" prefWidth="329.0" text="appointment_overlap_error" textFill="#dd0000" />
-      <Label fx:id="timeOutOfOrderLabel" layoutX="210.0" layoutY="102.0" prefHeight="17.0" prefWidth="329.0" text="times_out_of_order" textFill="#dd0000" />
+      <Label fx:id="timeBoundsErrorLabel" layoutX="210.0" layoutY="81.0" prefHeight="27.0" prefWidth="329.0" textFill="#dd0000" />
+      <Label fx:id="apptOverlapErrorLabel" layoutX="211.0" layoutY="63.0" prefHeight="27.0" prefWidth="329.0" textFill="#dd0000" />
+      <Label fx:id="timeOutOfOrderLabel" layoutX="210.0" layoutY="102.0" prefHeight="17.0" prefWidth="329.0" textFill="#dd0000" />
+      <Label fx:id="emptyFieldLabel" layoutX="341.0" layoutY="292.0" prefHeight="45.0" prefWidth="200.0" textFill="#d70101" wrapText="true" />
    </children>
 </AnchorPane>

@@ -28,6 +28,9 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class CreateCustomer implements Initializable {
     // Initialize the resource bundle which holds the Locale information
     ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
@@ -87,11 +90,14 @@ public class CreateCustomer implements Initializable {
     @FXML
     private Label emptyFieldLabel;
 
+    /**
+     * @param event
+     */
     @FXML
     void cancelCreateCustomer(MouseEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-            MainCalendar controller = new MainCalendar(user);
+            MainCalendar controller = new MainCalendar(user, null);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -105,8 +111,13 @@ public class CreateCustomer implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
-    void createCustomer(MouseEvent event) { // TODO: EDIT THIS PLEASE
+    void createCustomer(MouseEvent event) {
+        // Create a boolean to hold a flag for customer approval
+        boolean approvedCustomer = true;
         // Create customer data using data from customer fields
         int customerID = 0;
         String customerName = nameField.getText();
@@ -125,24 +136,44 @@ public class CreateCustomer implements Initializable {
         String lastUpdatedBy = user.getUserName();
         LocalDateTime emptyLDT = LocalDateTime.now(); // Empty date time to fill up customer object
 
-        // Create customer object and call DAO function to update the selected customer
-        try {
-            Customer customer = new Customer(customerID, customerName, customerAddress, customerPostalCode, customerPhoneNumber, emptyLDT, "", emptyLDT, lastUpdatedBy, customerFLD);
-            CustomerDAO.createCustomer(customer);
-        } catch (SQLException e) {
-            System.out.println(e);
+        // Determine if a text field is empty, and if it is, set the error label to the appropriate text and
+        // declare that the customer is not approved
+        if (nameField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The customer name text field must not be empty.");
+            approvedCustomer = false;
+        } else if (addressField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The address text field must not be empty.");
+            approvedCustomer = false;
+        } else if (postalCodeField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The postal code text field must not be empty.");
+            approvedCustomer = false;
+        } else if (phoneNumberField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The phone number text field must not be empty.");
+            approvedCustomer = false;
         }
 
-        // Update the data holding arrays, clear the fields, and re-initialize the customer table
-        initializeDataFields();
-        fillTextFields();
-        customerListTable.setItems(allCustomers);
-        customerListTable.refresh();
+        if (approvedCustomer) { // No errors detected in customer data
+            // Create customer object and call DAO function to update the selected customer
+            try {
+                Customer customer = new Customer(customerID, customerName, customerAddress, customerPostalCode, customerPhoneNumber, emptyLDT, "", emptyLDT, lastUpdatedBy, customerFLD);
+                CustomerDAO.createCustomer(customer);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
 
+            // Update the data holding arrays, clear the fields, and re-initialize the customer table
+            initializeDataFields();
+            fillTextFields();
+            customerListTable.setItems(allCustomers);
+            customerListTable.refresh();
 
+        }
 
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void selectCountryName(ActionEvent event) {
         // Clear the list of filtered first level divisions
@@ -172,10 +203,17 @@ public class CreateCustomer implements Initializable {
 
     }
 
+    /**
+     * @param user
+     */
     public CreateCustomer(User user) {
         this.user = user;
     }
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
@@ -187,6 +225,9 @@ public class CreateCustomer implements Initializable {
 
     }
 
+    /**
+     *
+     */
     private void initializeDataFields() {
         try {
             allCustomers = FXCollections.observableArrayList(CustomerDAO.getAllCustomers());
@@ -197,10 +238,16 @@ public class CreateCustomer implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     private void initializeErrorLabels() {
 
     }
 
+    /**
+     *
+     */
     private void initializeCustomerTable() {
         // Set the values for the Appointment Calendar TableView columns
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -219,6 +266,9 @@ public class CreateCustomer implements Initializable {
         customerListTable.refresh();
     }
 
+    /**
+     *
+     */
     private void fillTextFields() {
         // Clear all the fields so they can be re-filled
         clearTextFields();
@@ -249,9 +299,10 @@ public class CreateCustomer implements Initializable {
         // Set default selected drop down item as the first index
         firstLevelDivisionDropDown.getSelectionModel().select(0);
     }
-    /*
+
+    /**
      * @param <T>
-     * @return TableColumn
+     * @return TableColumn<T, Integer>
      */
     private <T> TableColumn<T, Integer> formatFirstLevelDivisionColumn(){
         // Create a TableColumn that accepts a generic type of object and a value of Integer
@@ -279,9 +330,9 @@ public class CreateCustomer implements Initializable {
         return firstLevelDivisionColumn;
     }
 
-    /*
+    /**
      * @param <T>
-     * @return TableColumn
+     * @return TableColumn<T, Integer>
      */
     private <T> TableColumn<T, Integer> formatCountryColumn(){
         // Create a TableColumn that accepts a generic type of object
@@ -316,6 +367,9 @@ public class CreateCustomer implements Initializable {
         return countryCol;
     }
 
+    /**
+     *
+     */
     private void clearTextFields() {
         // Clear all the editable/selectable fields
         nameField.clear();

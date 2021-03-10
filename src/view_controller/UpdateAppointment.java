@@ -31,6 +31,9 @@ import java.time.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class UpdateAppointment implements Initializable {
 
     // Initialize the resource bundle which holds the Locale information
@@ -97,6 +100,9 @@ public class UpdateAppointment implements Initializable {
     @FXML
     private Label emptyFieldLabel;
 
+    /**
+     * @param event
+     */
     @FXML
     void clickDeleteAppointment(MouseEvent event) {
         try{
@@ -104,7 +110,7 @@ public class UpdateAppointment implements Initializable {
             AppointmentDAO.deleteAppointment(selectedAppointment.getAppointmentID());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-            MainCalendar controller = new MainCalendar(user);
+            MainCalendar controller = new MainCalendar(user, selectedAppointment);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -118,11 +124,14 @@ public class UpdateAppointment implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void cancelUpdateAppointment(MouseEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-            MainCalendar controller = new MainCalendar(user);
+            MainCalendar controller = new MainCalendar(user, null);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -136,6 +145,9 @@ public class UpdateAppointment implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void updateAppointment(MouseEvent event) {
         // Add user input to temporary variables
@@ -197,6 +209,24 @@ public class UpdateAppointment implements Initializable {
                 }
             }
         }
+
+        // Determine if a text field is empty, and if it is, set the error label to the appropriate text and
+        // declare that the appointment is not approved
+        if (titleField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The title text field must not be empty.");
+            approvedAppointment = false;
+        } else if (descriptionField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The description text field must not be empty.");
+            approvedAppointment = false;
+        } else if (locationField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The location text field must not be empty.");
+            approvedAppointment = false;
+        } else if (typeField.getText().trim().isEmpty()) {
+            emptyFieldLabel.setText("The type text field must not be empty.");
+            approvedAppointment = false;
+        }
+
+
         if (approvedAppointment) { // No errors
             try{
                 // Convert from UTC to computers default locale (CANNOT BE HARD CODED, CHANGE THIS)
@@ -220,7 +250,7 @@ public class UpdateAppointment implements Initializable {
                 AppointmentDAO.updateAppointment(selectedAppointment);
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainCalendar.fxml"), rb);
-                MainCalendar controller = new MainCalendar(user);
+                MainCalendar controller = new MainCalendar(user, null);
                 loader.setController(controller);
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
@@ -236,6 +266,10 @@ public class UpdateAppointment implements Initializable {
 
     }
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
@@ -244,11 +278,23 @@ public class UpdateAppointment implements Initializable {
 
     }
 
+    /**
+     * UpdateAppointment is the constructor method for the UpdateAppointment class. It takes in a user and appointment
+     * object, which hold data about the user currently logged in to this application, and the appointment selected
+     * from the MainCalendar scene.
+     *
+     * @param appointment
+     * @param user
+     * @throws SQLException
+     */
     public UpdateAppointment (Appointment appointment, User user) throws SQLException {
         this.user = user;
         this.selectedAppointment = appointment;
     }
 
+    /**
+     *
+     */
     private void initializeDataFields() {
         // Create Observable Lists that can hold DB data
         ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
@@ -314,6 +360,9 @@ public class UpdateAppointment implements Initializable {
 
     }
 
+    /**
+     * This method clears all data current existing in the error labels on the UpdateAppointment jfx scene.
+     */
     private void initializeErrorLabels() {
         timeBoundsErrorLabel.setText("");
         apptOverlapErrorLabel.setText("");
