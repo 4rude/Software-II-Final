@@ -21,6 +21,11 @@ public class AppointmentDAO {
 
 
     /**
+     * This class method creates a connection with the business database, queries the appointments table for all of its
+     * appointment data, and adds it to a ResultSet object. The result set is then stepped through so it can add column
+     * data to an Appointment instance. Each object, once filled, is then added to an ArrayList of all appointments and
+     * is then returned from this method.
+     *
      * @return ArrayList<Appointment>
      * @throws SQLException
      */
@@ -74,6 +79,10 @@ public class AppointmentDAO {
     }
 
     /**
+     * This class method updates an the appointment table (in the database) with data from an appointment object passed
+     * in through its parameter. It creates a connection to the database, created an UPDATE query, fills it with data
+     * from the appointment object passed in, and then executes the query.
+     *
      * @param appt
      * @throws SQLException
      */
@@ -108,6 +117,10 @@ public class AppointmentDAO {
     }
 
     /**
+     * This class method inserts a new appointment into the business database. It creates a connection to the database,
+     * creates an INSERT INTO statement to hold appointment data, the statement is then filled with the given
+     * appointment data, and finally executes the statement.
+     *
      * @param appt
      * @throws SQLException
      */
@@ -142,6 +155,10 @@ public class AppointmentDAO {
     }
 
     /**
+     * This class method deletes the passed in appointment (based on its appointment ID) from the business database. It
+     * first opens a connection to the database, creates a DELETE FROM query to query the database with, fills the
+     * statement with the passed in appointment ID, then finally executes the statement.
+     *
      * @param appointmentID
      * @throws SQLException
      */
@@ -164,6 +181,13 @@ public class AppointmentDAO {
     }
 
     /**
+     * This class method deletes all appointments associated with a specified customer from the business database. It
+     * first creates a connection to the database, then adds a DELETE FROM statement to the String, fills the statement
+     * with the customer ID that was passed in as an argument, and then executes the statement. This function is used
+     * in tandem with deleting a customer from the database. The reasoning for this is that since a many-to-one
+     * relationship an appointment has with a customer, the appointments must first be deleted before the specified
+     * customer.
+     *
      * @param CustomerID
      * @throws SQLException
      */

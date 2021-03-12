@@ -8,11 +8,19 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- *
+ * This Class is a Data Access Object class, which uses the User model in tandem with the JDBC class and
+ * SQL statements to provide high level functions to access the data within the database. This class allows the
+ * programmer to read all user rows in the database, and then access that data from objects held within an ArrayList.
  */
 public class UserDAO {
 
     /**
+     * This class method is used to return an ArrayList of all users found within the business database. It first
+     * creates an ArrayList, then creates a connection with the database. Next it creates a SELECT statement to return
+     * all the rows of user data, and adds that data to a ResultSet object. The object is stepped through, and each
+     * row is added to a User object. The object is then added to an ArrayList, which holds all the User objects
+     * created. The ArrayList is then returned from this function.
+     *
      * @return ArrayList<User>
      * @throws SQLException
      */

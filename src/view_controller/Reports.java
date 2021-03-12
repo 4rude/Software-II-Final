@@ -26,7 +26,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- *
+ *  The Reports class is a ViewController that is responsible for displaying the scene that displays the three different
+ *  reports required for this application.
  */
 public class Reports {
     // Initialize the resource bundle which holds the Locale information
@@ -38,6 +39,10 @@ public class Reports {
     private TextArea reportTextArea;
 
     /**
+     * This method is responsible for moving the app user from the Reports scene to the MainCalendar scene. When a user
+     * presses the Exit button, the applcation will take the resource bundle data and user data and pass it to the
+     * Main Calendar scene for use.
+     *
      * @param event
      */
     @FXML
@@ -59,6 +64,18 @@ public class Reports {
     }
 
     /**
+     * This method generates the first report. It creates a variable to store data that is to be published to the
+     * textArea field on the scene. It then clears the textArea, fills an Observable list with data on all the
+     * appointments, then takes all the type of appointments and months of appointments and adds that data to an
+     * ArrayList. The method then groups appointments by month by using the following libraries: The java stream library
+     * provides operations on streams of elements. The collect() function then accumulates the type & month elements
+     * into a container. The Collector class then uses the groupBy function to determine how to group its arguments. The
+     * Collector counting() class then counts the number of given elements (type or month), and add the respective type
+     * or month to the key, and the counted amount to the value of a Map. This Map data structure uses a String type to
+     * hold the key, and a long type to hold the value. A for loop then iterates through the Map to add to a string,
+     * key by key, the amount of appointments for each month and type. The dataStore string, holding this data, is then
+     * appended to the textArea.
+     *
      * @param event
      */
     @FXML
@@ -114,6 +131,9 @@ public class Reports {
     }
 
     /**
+     * This method generates report three, which displays the data log of user login attempts. It displays each line of
+     * the user logs so the user can easily see who has (attempted to) log in to the application.
+     *
      * @param event
      */
     @FXML
@@ -133,6 +153,11 @@ public class Reports {
     }
 
     /**
+     * This method generates and displays (on the textArea) the second report required for this project. The report
+     * displays an appointment schedule for each contact within this fictional business organization. For each contact
+     * within the organization, it prints out each appointment tied to them, including the appointment ID, title, type,
+     * description, appointment start and end date & time, and its respective customer ID.
+     *
      * @param event
      */
     @FXML
@@ -160,8 +185,8 @@ public class Reports {
                 if(contact.getContactID() == appointment.getContactID()) {
                     queryData += "Appointment ID: " + appointment.getAppointmentID() + " || Title: " +
                             appointment.getTitle() + " || Type: " + appointment.getType() + " || Description: " +
-                            appointment.getDescription() + " || Appointment Start Date & Time UTC: " +
-                            appointment.getStart().toString() + " || Appointment End Date & Time UTC: " +
+                            appointment.getDescription() + " || Appointment Start Date & Time in UTC: " +
+                            appointment.getStart().toString() + " || Appointment End Date & Time in UTC: " +
                             appointment.getEnd().toString() + " || Customer ID: " + appointment.getCustomerID() +
                             System.lineSeparator() + System.lineSeparator();
                 }
@@ -177,6 +202,9 @@ public class Reports {
     }
 
     /**
+     * This method is the constructor of the Reports class, it takes in a user object to be used by the Reports class.
+     * The user variable is passed around this application.
+     *
      * @param user
      */
     public Reports(User user) {

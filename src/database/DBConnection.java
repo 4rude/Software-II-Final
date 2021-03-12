@@ -6,7 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * The DBConnection class is used to hold database connection data, the JDBC info used in this application, and holds
+ * behavior to start a connection to the database, return a connection to a programmer requesting it, and safely closing
+ * a connection with the database.
  */
 public class DBConnection {
 
@@ -27,7 +29,11 @@ public class DBConnection {
     private static final String username = "U07yTl";
     private static Connection conn = null;
 
-    /** Starts the database connection **/
+    /**
+     * Starts the database connection
+     *
+     * @return Connection
+     * **/
     public static Connection startConnection() {
         try{
             Class.forName(MYSQLJDBCDriver);
@@ -40,12 +46,19 @@ public class DBConnection {
         return conn;
     }
 
-    /** Serves up the database connection when needed **/
+    /**
+     * Serves up the database connection when needed
+     *
+     * @return Connection
+     * **/
     public static Connection getConnection() {
         return conn;
     }
 
-    /** Closes the database connection **/
+    /**
+     * Closes the database connection
+     *
+     **/
     public static void closeConnection() {
         try{
             conn.close();

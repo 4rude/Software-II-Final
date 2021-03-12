@@ -24,6 +24,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.*;
 
+/**
+ * MainCalendar is a ViewController that holds jfx object & functions that display a calendar with appointment details,
+ * filter options for the calendar, error labels, as well as buttons to route the user to creating & modifying
+ * appointments and customers plus routing to the reports scene.
+ */
 public class MainCalendar implements Initializable {
 
     // The Observable List that holds all the appointments
@@ -85,6 +90,9 @@ public class MainCalendar implements Initializable {
     private Label appointmentDeletedLabel;
 
     /**
+     * This method is a constructor for the MainCalendar ViewController. It takes in a user object and a appointment
+     * object which is assigned to the appUser and deletedAppointment local variables.
+     *
      * @param user
      * @param appt
      * @throws SQLException
@@ -95,6 +103,10 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickCreateAppointment method holds functionality which sends the application user to the Create Appointment
+     * scene. The controller object is given the appUser object as an argument to keep the current user data up-to-date
+     * around the application.
+     *
      * @param event
      */
     @FXML
@@ -116,6 +128,10 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickCreateCustomer method holds functionality which sends the application user to the Create Customer
+     * scene. The controller object is given the appUser object as an argument to keep the current user data up-to-date
+     * around the application.
+     *
      * @param event
      */
     @FXML
@@ -137,6 +153,9 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickExitSystem method essentially logs the user out and sends them to the login page. All appointments are
+     * cleared from the allAppointments Observable List.
+     *
      * @param event
      * @throws SQLException
      */
@@ -161,11 +180,14 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickMonthlyView radio button is used to filter the TableView so it displays all appointments for the
+     * currently selected month in the DatePicker. It un-selects the weekly radio button, adds the filtered appointments
+     * to the TableView, and refreshed the TableView.
+     *
      * @param event
-     * @throws SQLException
      */
     @FXML
-    void clickMonthlyView(MouseEvent event) throws SQLException {
+    void clickMonthlyView(MouseEvent event) {
         // Unset the weekly view radio button and keep monthly view set
         weeklyViewButton.setSelected(false);
         monthlyViewButton.setSelected(true);
@@ -189,11 +211,14 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickWeeklyView radio button is used to filter the TableView so it displays all appointments for the
+     * currently selected week in the DatePicker. It un-selects the monthly radio button, adds the filtered appointments
+     * to the TableView, and refreshed the TableView.
+     *
      * @param event
-     * @throws SQLException
      */
     @FXML
-    void clickWeeklyView(MouseEvent event) throws SQLException {
+    void clickWeeklyView(MouseEvent event) {
         // Unset the monthly view radio button and keep weekly view set
         monthlyViewButton.setSelected(false);
         weeklyViewButton.setSelected(true);
@@ -217,6 +242,10 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickUpdateAppointment method send the user to the UpdateAppointment scene. It first grabs the
+     * selected appointment from the TableView, determines if an appointment has/has not been selected, and if one has--
+     * it loads up the UpdateAppointment scene with the selected appointment and user object passed in as arguments.
+     *
      * @param event
      */
     @FXML
@@ -250,6 +279,10 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickUpdateCustomer method is used to move the user from the MainCalendar scene to the UpdateCustomer
+     * scene. The UpdateCustomer controller takes a user object to move around the application for user data, and
+     * then displays the scene.
+     *
      * @param event
      */
     @FXML
@@ -271,6 +304,9 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The clickReports method is used to move the user from the MainCalendar scene to the Reports scene. It passes in a
+     * user object to the Reports controller and then loads and displays the Reports scene.
+     *
      * @param event
      */
     @FXML
@@ -293,6 +329,12 @@ public class MainCalendar implements Initializable {
 
 
     /**
+     * The initialize method resets the lists used to hold appointments, fills the appointment list with all
+     * appointments in the database, sets an action event on the DatePicker to determine how to filter the TableView,
+     * clears the jfx labels, initializes the default calender settings, then generates the initial calendar with
+     * information held in the tableview (with this month selected). Finally if the appointment is not null in the
+     * constructor, that means an appointment was cancelled and it displays that on the MainCalendar scene.
+     *
      * @param location
      * @param resources
      */
@@ -311,8 +353,15 @@ public class MainCalendar implements Initializable {
             throwables.printStackTrace();
         }
 
+        /**
+         * Below, a lambda is used to set a block of code on an event object. First an setOnAction function is
+         * applied to a DatePicker object. An event is taken in as a argument, and how the event is handled is done
+         * by using a lambda on the event object to return the code block, which updates the TableView with either
+         * data from a month or week. The lambda is effective because it eliminates the need to create an anonymous
+         * class an override a function.
+         */
         // Add an Event Handler on the appointmentCalendar so it updates the TableView when a day node is clicked
-        appointmentCalendar.setOnAction(event-> {
+        appointmentCalendar.setOnAction(event -> {
             // If the weekly view radio button is selected...
             if(weeklyViewButton.isSelected()) {
                 // Empty the appointments List so new filtered appointments can be added
@@ -375,6 +424,12 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The generateAppointmentCalendar method sets the cellValueFactory on the pre-generated columns with properties
+     * from an appointment object (within the filteredAppointments observable list), then creates uses the
+     * formatStartDateTime and formatEndDateTime functions to create their respective TableColumns, then it adds them
+     * to the TableView. Finally it sets all items on the TableView using an observable list and updates the data shown
+     * on the TableView.
+     *
      * @throws SQLException
      */
     private void generateAppointmentCalendar() throws SQLException {
@@ -398,6 +453,9 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The formatStartDateTime function creates a column specifically for the Calendar TableView. It formats the row in
+     * the Start Date/Time TableColumn to display the time/date to the local time zone, as well as formats its
+     * appearance in a readable format.
      * @param <T>
      * @return TableColumn<T, LocalDateTime>
      */
@@ -406,18 +464,22 @@ public class MainCalendar implements Initializable {
         TableColumn<T, LocalDateTime> startDateTimeCol = new TableColumn("Start Date & Time");
         // Set up a CellValueFactory that takes the "start" member from an Appointment object
         startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        /**
+         * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
+         * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. It is also
+         * arguably more readable because it removes code that doesn't help explain what this application does.
+         */
         // Reformat column cells as new date/time pattern & local time zone
         startDateTimeCol.setCellFactory((TableColumn<T, LocalDateTime> column) -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty); // Java Documentation recommended this to prevent graphical issues
                 if (!empty) {
                     // Alter the UTC time zone from DB to Local Time Zone
                     LocalDateTime newItem = item.atZone(ZoneOffset.UTC).withZoneSameInstant(localTimeZoneID).toLocalDateTime();
                     // Format the Date & Time to be displayed in the TableView
                     setText(String.format(newItem.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"))));
-                } else if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
                 }
             }
         });
@@ -425,24 +487,32 @@ public class MainCalendar implements Initializable {
     }
 
     /**
+     * The formatEndDateTime function creates a column specifically for the Calendar TableView. It formats the row in
+     * the End Date/Time TableColumn to display the time/date to the local time zone, as well as formats its
+     * appearance in a readable format.
+     *
      * @param <T>
      * @return TableColumn<T, LocalDateTime>
      */
     private <T> TableColumn<T, LocalDateTime> formatEndDateTime(){
         TableColumn<T, LocalDateTime> endDateTimeCol = new TableColumn("End Date & Time");
         endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        /**
+         * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
+         * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. It is also
+         * arguably more readable because it removes code that doesn't help explain what this application does.
+         */
         // Reformat column cells as new date/time pattern & local time zone
         endDateTimeCol.setCellFactory((TableColumn<T, LocalDateTime> column) -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty); // Java Documentation recommended this to prevent graphical issues
                 if (!empty) {
                     // Alter the UTC time zone from DB to Local Time Zone
                     LocalDateTime newItem = item.atZone(ZoneOffset.UTC).withZoneSameInstant(localTimeZoneID).toLocalDateTime();
                     // Format the Date & Time to be displayed in the TableView
                     setText(String.format(newItem.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"))));
-                } else if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
                 }
             }
         });
@@ -450,7 +520,10 @@ public class MainCalendar implements Initializable {
     }
 
     /**
-     *
+     * This method initializes the default calendar settings. It sets the appointment alert text to its default text,
+     * sets the DatePicker to the current month, sets the monthly radio button to selected, and finally checks the
+     * list of appointments to see if any are within 15 minutes of the current time. If one is found, it displays it on
+     * the MainCalendar scene.
      */
     public void initializeDefaultCalendarSettings() {
         // Default near appointment alert settings
@@ -465,10 +538,8 @@ public class MainCalendar implements Initializable {
         monthlyViewButton.setSelected(true);
         // For appointments in the current month, held within all appointments
         for(Appointment appointment: allAppointments) {
-            //System.out.println("All appointment start date and time: " + appointment.getStart());
             // Add appointment to filteredAppointments
             if (appointment.getStart().toLocalDate().getMonthValue() == currentMonth) {
-                //System.out.println(appointment.getStart().atZone(ZoneOffset.UTC).withZoneSameInstant(localTimeZoneID).toLocalDateTime());
                 filteredAppointments.add(appointment);
                 // If appointment is within 15 minutes from now...
                 if (currentDateTime.isEqual(appointment.getStart()) || (appointment.getStart().isAfter(currentDateTime) && appointment.getStart().isBefore(currentDateTime.plusMinutes(15))) ||

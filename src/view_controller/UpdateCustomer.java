@@ -28,7 +28,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- *
+ * The UpdateCustomer is a ViewController that holds the jfx objects that create the UI for updating a customer,
+ * specifically the labels, text fields, buttons, and a TableView. This ViewController holds the functionality for
+ * loading a TableView with data, adding data from a selected customer to the TextFields, updating a customer in the
+ * database, and deleting a customer from the database.
  */
 public class UpdateCustomer implements Initializable {
     // Initialize the resource bundle which holds the Locale information
@@ -97,6 +100,10 @@ public class UpdateCustomer implements Initializable {
     private Label emptyFieldLabel;
 
     /**
+     * This method provides a definition for an Action Event, which determines what happens when a country is selected
+     * from the drop down. When a country is selected, the first level division drop down is updated with its
+     * related states/providences/etc.
+     *
      * @param event
      */
     @FXML
@@ -127,6 +134,8 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * The cancelUpdateCustomer method moves the user from the UpdateCustomer scene to the main calendar scene.
+     *
      * @param event
      */
     @FXML
@@ -148,6 +157,9 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * The deleteSelectedCustomer method gets the currently selected customer from the TableView and clears the text
+     * fields. If a customer is indeed selected, the customer is removed from the database and the label on the scene
+     * is updated with its ID. The TableView is then updated with the current data.
      * @param event
      */
     @FXML
@@ -179,6 +191,10 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * The updateCustomer method is used to update a selected customer with new data and put that in the database. If a
+     * customer is selected, the text fields with presumably new data is loaded into a customer object. That object data
+     * is then set to the database to update it. Finally the TableView is refreshed.
+     *
      * @param event
      */
     @FXML
@@ -260,6 +276,10 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * The initialize function is overridden so the local ObservableLists are loaded with data, the labels are
+     * initialized, the TableView is loaded with Customer data, and finally the Row Event is initialized so when
+     * a row is clicked the data show up in the text fields.
+     *
      * @param location
      * @param resources
      */
@@ -279,6 +299,8 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * This function initializes the local Observable lists with data from their respective database tables.
+     *
      * @throws SQLException
      */
     private void initializeDataFields() throws SQLException {
@@ -294,7 +316,7 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
-     *
+     * This method sets all the error labels on the UpdateCustomer view to clear.
      */
     private void initializeErrorLabels() {
         // Handle if a Customer is not selected from the TableView
@@ -306,7 +328,11 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
-     *
+     * The initializeCustomerTable method sets the cellValueFactory on the pre-generated columns with properties
+     * from an customer object (within the allCustomers observable list), then creates uses the
+     * formatCountryColumn and formatFirstLevelDivisionColumn functions to create their respective TableColumns, then
+     * it adds them to the TableView. Finally it sets all items on the TableView using an observable list and updates
+     * the data shown on the TableView.
      */
     private void initializeCustomerTable() {
         // Set the values for the Appointment Calendar TableView columns
@@ -327,6 +353,12 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * This method returns a TableColumn that holds first level division data connected to a customer. The TableColumn
+     * is created and its name is assigned and a Property Value Factory is then set on the column to assign it data.
+     * The setCellFactory is applied to the TableColumn to format and within that the updateItem function is overridden
+     * to customize the cell data. The data in the cell is determined by what first level division the customer
+     * resides in.
+     *
      * @param <T>
      * @return TableColumn<T, Integer>
      */
@@ -338,6 +370,12 @@ public class UpdateCustomer implements Initializable {
         // Create a lambda expression to use as a parameter for the setCellFactory, using parameter column of type
         // TableColumn<> with a with an expression that creates a new TableCell instance with the updateItem() function
         // overridden
+        /**
+         * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
+         * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. It is also
+         * arguably more readable because it removes code that doesn't help explain what this application does.
+         */
         firstLevelDivisionColumn.setCellFactory((TableColumn<T, Integer> column) -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -358,6 +396,11 @@ public class UpdateCustomer implements Initializable {
 
 
     /**
+     * This method returns a TableColumn that holds country data connected to a customer. The TableColumn
+     * is created and its name is assigned and a Property Value Factory is then set on the column to assign it data.
+     * The setCellFactory is applied to the TableColumn to format and within that the updateItem function is overridden
+     * to customize the cell data. The data in the cell is determined by what country the customer resides in.
+     *
      * @param <T>
      * @return TableColumn<T, Integer>
      */
@@ -369,6 +412,12 @@ public class UpdateCustomer implements Initializable {
         // Create a lambda expression to use as a parameter for the setCellFactory, using parameter column of type
         // TableColumn<> with a with an expression that creates a new TableCell instance with the updateItem() function
         // overridden
+        /**
+         * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
+         * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. It is also
+         * arguably more readable because it removes code that doesn't help explain what this application does.
+         */
         countryCol.setCellFactory((TableColumn<T, Integer> column) -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -395,9 +444,20 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
-     *
+     * This method sets an event on the row in the Customer TableView. If a row is selected, it clears the customer
+     * text fields, fills them with data from the selected row, and clears the error labels.
      */
     private void initializeRowEvent() {
+        /**
+         * The setRowFactory is used to create a TableRow with specific properties. The customerTableView has a lambda
+         * that its allows it to be assigned (via Callback) to a block of code. This lambda makes the code more readable
+         * by stating that the customerTableView is going to have rows that have a custom mouseClicked event assigned
+         * to it. Within this code block, a TableRow is created and a mouseEvent is set as an argument for its
+         * setOnMouseClicked method. This is done by using a lambda to clearly encapsulate the code which determines
+         * whether the row has been pressed, if a row is empty or not, and which mouse button pressed the row. These all
+         * allow the data from the selected row to be added to the text fields. The lambda is useful because it removes
+         * the need to define an anonymous function to create the mouse event and also keeps the code readable.
+         */
         customerListTable.setRowFactory(customerTableView -> {
             TableRow<Customer> row = new TableRow<>();
             row.setOnMouseClicked(mouseEvent -> {
@@ -413,6 +473,9 @@ public class UpdateCustomer implements Initializable {
     }
 
     /**
+     * This method is fills the text fields, which holds customer data that can be edited, with a customer selected from
+     * the TableView.
+     *
      * @param selectedCustomer
      */
     private void fillTextFields(Customer selectedCustomer) {

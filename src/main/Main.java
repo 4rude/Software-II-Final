@@ -11,7 +11,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- *
+ * The Main class is the class that extends the Application library, which acts as an entry for a JFX application. It
+ * is responsible for much of the lifetime of the created application. The start() method associated with the
+ * Application is abstract so it is implemented below.
  */
 public class Main extends Application {
 
@@ -20,17 +22,16 @@ public class Main extends Application {
      * also detects the default language of the users computer and creates a ArrayList of all the users information
      * found within the connected database.
      *
+     * The following objects and functions can be used to change the default locale of the system:
+     * Locale france = new Locale("fr", "FR");
+     * Locale.setDefault(france);
+     *
      * @param primaryStage
      * @throws Exception
      *
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        // TESTING ZONE ** CHANGE IN PRODUCTION **
-        //Locale france = new Locale("fr", "FR");
-        //Locale.setDefault(france);
-        // TESTING ZONE ** CHANGE IN PRODUCTION **
 
         ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
 
@@ -46,6 +47,10 @@ public class Main extends Application {
 
 
     /**
+     * The main method starts the connection to the database specified in the DBConnection class, launches the
+     * application, and then closes the database connection after the launch function is returned and the application
+     * is closed.
+     *
      * @param args
      */
     public static void main(String[] args) {

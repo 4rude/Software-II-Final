@@ -5,7 +5,8 @@ import java.time.Instant;
 import java.util.Scanner;
 
 /**
- *
+ * The LoginIO class data & behavior is responsible for holding the file location of the login_activity.txt file, for
+ * adding login attempts to the file, and returning all login attempts (line-by-line) to the requested user.
  */
 public class LoginIO {
     // Get the location of the login_activity file
@@ -13,6 +14,11 @@ public class LoginIO {
     public static File findFile = new File("../login_activity.txt");
 
     /**
+     * This class method is a static method that uses the FileWriter and PrintWriter classes to open the
+     * login_activity.txt, adds the current date & time to the file, adds whether the login attempt was successful to
+     * the file, and the user data that was gathered from the Login ViewController's text fields to the txt file. The
+     * connections to the file are then closed at the end to prevent errors.
+     *
      * @param userName
      * @param userPassword
      * @param loginAttemptSuccess
@@ -48,6 +54,9 @@ public class LoginIO {
     }
 
     /**
+     * The getLoginAttempt class method uses the Scanner class to get the data from the login_activity.txt file,
+     * then reads the file line-by-line and adds that data to a String. The string is then returned from this method.
+     *
      * @return String
      */
     // public static String method that gets user attempts from login_activity.txt file in src folder
