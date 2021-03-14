@@ -1,0 +1,9 @@
+ User Name: admin || User Password: admin || Login Attempt Date & Time in UTC: 2021-03-14T04:30:20.715769Z || Attempt: Successful
+ User Name: admin || User Password: admin || Login Attempt Date & Time in UTC: 2021-03-14T04:35:41.541442Z || Attempt: Successful
+ User Name: fail || User Password: fail || Login Attempt Date & Time in UTC: 2021-03-14T04:41:36.483032Z || Attempt: Failed
+ User Name: test || User Password: test || Login Attempt Date & Time in UTC: 2021-03-14T04:41:39.703320Z || Attempt: Successful
+ User Name: admin || User Password: failure || Login Attempt Date & Time in UTC: 2021-03-14T04:43:31.756817Z || Attempt: Failed
+ User Name: admin || User Password: admin || Login Attempt Date & Time in UTC: 2021-03-14T04:43:38.203Z || Attempt: Successful
+ User Name: admin || User Password: admin || Login Attempt Date & Time in UTC: 2021-03-14T04:55:19.249504Z || Attempt: Successful
+ User Name: admin || User Password: admin || Login Attempt Date & Time in UTC: 2021-03-14T05:09:07.680835Z || Attempt: Successful
+ User Name: admin || User Password: admin || Login Attempt Date & Time in UTC: 2021-03-14T05:09:40.413776Z || Attempt: Successful

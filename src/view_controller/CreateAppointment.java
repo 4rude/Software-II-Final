@@ -31,7 +31,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- *
+ * The CreateAppointment is a ViewController that holds the jfx objects that create the UI for creating an appointment,
+ * specifically the labels, text fields, buttons, and drop downs. This ViewController holds the functionality for
+ * adding appointment data to the database from the TextFields on the scene. The scene also has a button to take the
+ * user back to the MainCalendar scene.
  */
 public class CreateAppointment implements Initializable {
     // Initialize the resource bundle which holds the Locale information
@@ -97,6 +100,9 @@ public class CreateAppointment implements Initializable {
     private Label emptyFieldLabel;
 
     /**
+     * The method cancelCreateAppointment is used to take the user from the CreateAppointment scene to the MainCalendar
+     * scene, while the user data is added as a controller argument so it can be passed around the application.
+     *
      * @param event
      */
     @FXML
@@ -118,10 +124,19 @@ public class CreateAppointment implements Initializable {
     }
 
     /**
+     * The createAppointment method is used to take the data from the appointment text fields and add it to the
+     * appointment table in the database. Data from the text fields is added to proper temporary variables, those
+     * variables are then tested to ensure they fall in the appropriate values (for instance, the dates & times must
+     * be within 8am to 10pm eastern time), then the variables are checked to ensure they are not empty, and if it
+     * passes all those test the data is added to the appointment table in the database.
+     *
      * @param event
      */
     @FXML
     void createAppointment(MouseEvent event) {
+        // Reset error labels
+        initializeErrorLabels();
+
         // Use LocalDateTime of() operation to combine LocalDate and LocalTime from the time & date comboBox + DatePicker
         // The LocalDate and LocalTime is combined into a LocalDateTime object, which can be added to the DB
         // Add user input to temporary variables
@@ -228,10 +243,13 @@ public class CreateAppointment implements Initializable {
                 System.out.println(e);
             }
         }
-
     }
 
     /**
+     * The initialize method is used to initialize the ObservableLists with data, fill the drop downs with data, and
+     * clear the error labels on the scene. The initialize method is used because they are ran after the data in the
+     * constructor is.
+     *
      * @param location
      * @param resources
      */
@@ -255,7 +273,8 @@ public class CreateAppointment implements Initializable {
     }
 
     /**
-     *
+     * THe initializeDataFields method is used to first load up the ObservableLists with data. It then fills the drop
+     * downs (combo boxes) with data, and finally sets the default values for the drop downs.
      */
     private void initializeDataFields() {
         // Handle SQL exceptions when using DAO functions

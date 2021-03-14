@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class LoginIO {
     // Get the location of the login_activity file
     //public static URL fileURL = LoginIO.class.getResource("/login_activity.txt");
-    public static File findFile = new File("../login_activity.txt");
+    public static File findFile = new File("login_activity.txt");
 
     /**
      * This class method is a static method that uses the FileWriter and PrintWriter classes to open the

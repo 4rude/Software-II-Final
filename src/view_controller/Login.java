@@ -1,9 +1,6 @@
 package view_controller;
 
-import DAO.AppointmentDAO;
 import DAO.UserDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +24,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- *
+ * The Login class is used to implement the Login ViewController scene with its jfx buttons, text fields, and labels. It
+ * specifically holds the functionality for attempting to log in a user to the application, check if the users data
+ * is accepted, and if not it displays an error label to the user. It also allows the user to clear/reset the text
+ * fields and error labels.
  */
 public class Login implements Initializable {
 
@@ -71,6 +71,10 @@ public class Login implements Initializable {
     private Label loginErrorLabel;
 
     /**
+     * The clickLogin method clears the error label, checks the user info in the database against the user name/password
+     * that the user entered. If the user name and password is accepted, the user is sent to the MainCalendar page, if
+     * it is not accepted, the user is kept on the page and an error is thrown.
+     *
      * @param event
      */
     @FXML
@@ -107,13 +111,16 @@ public class Login implements Initializable {
         if (counter == allUsers.size()) {
             System.out.println("Not Accepted");
             // Add the attempt to the login_activity.txt file
-            LoginIO.addLoginAttempt(usernameTextBox.getText(), passwordTextBox.getText(), true);
+            LoginIO.addLoginAttempt(usernameTextBox.getText(), passwordTextBox.getText(), false);
             // If it is the incorrect user/password
             loginErrorLabel.setText(rb.getString("login_error_label"));
         }
     }
 
     /**
+     * The clickRefresh event happens when someone clicks the refresh button. When that happens, it clears the text
+     * fields and error labels.
+     *
      * @param event
      */
     @FXML
@@ -126,34 +133,37 @@ public class Login implements Initializable {
     }
 
     /**
+     * The initialize method is ran after the constructor is ran. Within this function the labels are initialized and
+     * user data is gathered from the database.
+     *
      * @param location
      * @param resources
      */
-    // Initialize the class with the correct label and alert language
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rb = resources;
         setLabelAndAlertLanguage();
-
-        try {
-            getUserData();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        getUserData();
     }
 
     /**
-     * @throws SQLException
-     */
-    private void getUserData() throws SQLException {
-        // Add all users to the allUsers list
-        allUsers = UserDAO.getAllUsers();
-    }
-
-    /**
+     * The getUserData class is used to execute a query to the database and fill the allUser ArrayList with the user
+     * table data.
      *
      */
-    // Set all labels to default language
+    private void getUserData() {
+        // Add all users to the allUsers list
+        try {
+            allUsers = UserDAO.getAllUsers();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+    }
+
+    /**
+     * The setLabelAndAlertLanguage method sets all labels to default language and initializes the error label.
+     */
     private void setLabelAndAlertLanguage(){
         loginButton.setText(rb.getString(loginButton.getText()));
         refreshButton.setText(rb.getString(refreshButton.getText()));

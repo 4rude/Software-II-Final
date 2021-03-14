@@ -29,7 +29,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- *
+ * The CreateCustomer is a ViewController that holds the jfx objects that create the UI for creating an customer,
+ * specifically the labels, text fields, drop downs, buttons, and a TableView. This ViewController holds the
+ * functionality for adding customer data to the database from the TextFields and drops downs on the scene. The scene
+ * also has a button to take the user back to the MainCalendar scene. Finally the scene displays a TextView that holds
+ * a list of Customers from the database.
  */
 public class CreateCustomer implements Initializable {
     // Initialize the resource bundle which holds the Locale information
@@ -91,6 +95,9 @@ public class CreateCustomer implements Initializable {
     private Label emptyFieldLabel;
 
     /**
+     * The method cancelCreateCustomer is used to take the user from the CreateCustomer scene to the MainCalendar
+     * scene, while the user data is added as a controller argument so it can be passed around the application.
+     *
      * @param event
      */
     @FXML
@@ -112,6 +119,11 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
+     * The createCustomer method takes data from the text fields on the CreateCustomer scene and adds them to temporary
+     * variables. The variables are then tested to ensure that the data is not null-- if it is then an error is thrown,
+     * if not then the data is added to a Customer object which (its data) is then added to the database. Finally the
+     * Customer TableView is refreshed with up-to-date data.
+     *
      * @param event
      */
     @FXML
@@ -161,9 +173,10 @@ public class CreateCustomer implements Initializable {
                 System.out.println(e);
             }
 
-            // Update the data holding arrays, clear the fields, and re-initialize the customer table
+            // Update the data holding arrays, clear the fields & labels, and re-initialize the customer table
             initializeDataFields();
             fillTextFields();
+            emptyFieldLabel.setText("");
             customerListTable.setItems(allCustomers);
             customerListTable.refresh();
 
@@ -211,6 +224,10 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
+     * The initialize method is used to initialize the ObservableLists with data, fill the drop downs with data, and
+     * clear the error labels on the scene. The Customer table is also initialized with data. The initialize method is
+     * used because they are ran after the data in the constructor is.
+     *
      * @param location
      * @param resources
      */
@@ -219,14 +236,14 @@ public class CreateCustomer implements Initializable {
         rb = resources;
         // Fire the initializing functions on the ViewController initiation
         initializeDataFields();
-        initializeErrorLabels();
         initializeCustomerTable();
         fillTextFields();
 
     }
 
     /**
-     *
+     * This method is used to fill the ObservableLists with customer, country, and first level division data from the
+     * database.
      */
     private void initializeDataFields() {
         try {
@@ -239,14 +256,8 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
-     *
-     */
-    private void initializeErrorLabels() {
-
-    }
-
-    /**
-     *
+     * The initializeCustomerTable method is used to load Customer data in to the Customer table. The columns are set up
+     * with data from a ObservableList that holds the customer type.
      */
     private void initializeCustomerTable() {
         // Set the values for the Appointment Calendar TableView columns
@@ -267,7 +278,8 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
-     *
+     * The fillTextFields method clears the text fields and fills the drop down fields with data from the countries
+     * in the database and their respective first level divisions.
      */
     private void fillTextFields() {
         // Clear all the fields so they can be re-filled
@@ -301,6 +313,12 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
+     * This method returns a TableColumn that holds first level division data connected to a customer. The TableColumn
+     * is created and its name is assigned and a Property Value Factory is then set on the column to assign it data.
+     * The setCellFactory is applied to the TableColumn to format and within that the updateItem function is overridden
+     * to customize the cell data. The data in the cell is determined by what first level division the customer
+     * resides in.
+     *
      * @param <T>
      * @return TableColumn<T, Integer>
      */
@@ -312,6 +330,12 @@ public class CreateCustomer implements Initializable {
         // Create a lambda expression to use as a parameter for the setCellFactory, using parameter column of type
         // TableColumn<> with a with an expression that creates a new TableCell instance with the updateItem() function
         // overridden
+        /**
+         * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
+         * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. The lambda is also
+         * arguably more readable because it removes code that doesn't help explain what this application does.
+         */
         firstLevelDivisionColumn.setCellFactory((TableColumn<T, Integer> column) -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -331,6 +355,11 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
+     * This method returns a TableColumn that holds country data connected to a customer. The TableColumn
+     * is created and its name is assigned and a Property Value Factory is then set on the column to assign it data.
+     * The setCellFactory is applied to the TableColumn to format and within that the updateItem function is overridden
+     * to customize the cell data. The data in the cell is determined by what country the customer resides in.
+     *
      * @param <T>
      * @return TableColumn<T, Integer>
      */
@@ -342,6 +371,12 @@ public class CreateCustomer implements Initializable {
         // Create a lambda expression to use as a parameter for the setCellFactory, using parameter column of type
         // TableColumn<> with a with an expression that creates a new TableCell instance with the updateItem() function
         // overridden
+        /**
+         * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
+         * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. The lambda is also
+         * arguably more readable because it removes code that doesn't help explain what this application does.
+         */
         countryCol.setCellFactory((TableColumn<T, Integer> column) -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -368,7 +403,7 @@ public class CreateCustomer implements Initializable {
     }
 
     /**
-     *
+     * This method clears all of the text fields and drop downs on the CreateCustomer scene.
      */
     private void clearTextFields() {
         // Clear all the editable/selectable fields

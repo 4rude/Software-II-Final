@@ -373,7 +373,7 @@ public class UpdateCustomer implements Initializable {
         /**
          * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
          * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
-         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. It is also
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. The lambda is also
          * arguably more readable because it removes code that doesn't help explain what this application does.
          */
         firstLevelDivisionColumn.setCellFactory((TableColumn<T, Integer> column) -> new TableCell<>() {
@@ -415,7 +415,7 @@ public class UpdateCustomer implements Initializable {
         /**
          * Below a lambda is used to easily format a TableCell within a TableColumn and pass that formatted TableColumn
          * to the setCellFactory on the startDateTimeCol. A lambda is useful here because removes the need to create an
-         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. It is also
+         * anonymous class or a whole new TableColumn object outside of the setCellFactory argument. The lambda is also
          * arguably more readable because it removes code that doesn't help explain what this application does.
          */
         countryCol.setCellFactory((TableColumn<T, Integer> column) -> new TableCell<>() {

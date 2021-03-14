@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.LoadException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,7 +31,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- *
+ * The UpdateAppointment class is holds the jfx labels, text fields, combo boxes, and data pickers. This class displays
+ * a scene which shows appointment data from an appointment selected from the MainCalendar TableView. The appointment
+ * data can be edited & updated, or deleted from the database.
  */
 public class UpdateAppointment implements Initializable {
 
@@ -101,6 +102,9 @@ public class UpdateAppointment implements Initializable {
     private Label emptyFieldLabel;
 
     /**
+     * The clickDeleteAppointment method is used to delete the selected user (selected from the MainCalendar TableView)
+     * from the appointment table in the database.
+     *
      * @param event
      */
     @FXML
@@ -125,6 +129,8 @@ public class UpdateAppointment implements Initializable {
     }
 
     /**
+     * The cancelUpdateAppointment method is used to move the user to the MainCalendar page from the UpdateAppointment
+     * page.
      * @param event
      */
     @FXML
@@ -146,10 +152,19 @@ public class UpdateAppointment implements Initializable {
     }
 
     /**
+     * The updateAppointment method first adds user inputted data from the text fields into temporary variables. Then
+     * the user data is checked to ensure the dates & times do not overlap with other appointments in the database.
+     * Finally the user data is checked to make sure its not empty. If everything checks out and the appointment is
+     * approved, the temporary variable data is added to the selectedAppointment object and that data is added to
+     * the database.
+     *
      * @param event
      */
     @FXML
     void updateAppointment(MouseEvent event) {
+        // Reset error labels
+        initializeErrorLabels();
+
         // Add user input to temporary variables
         String title = titleField.getText().trim();
         String desc = descriptionField.getText().trim();
@@ -267,6 +282,8 @@ public class UpdateAppointment implements Initializable {
     }
 
     /**
+     * The initialize method is used to initialize the ObservableLists with data and clear the error labels.
+     *
      * @param location
      * @param resources
      */
@@ -293,7 +310,10 @@ public class UpdateAppointment implements Initializable {
     }
 
     /**
-     *
+     * The initializeDataFields method first creates lists to hold customer IDs, user IDs, and contact names. The
+     * ObservableLists are filled with the proper data, and then used to fill the drop downs on the scene with data.
+     * Finally the rest of the text fields are filled with appointment data from selected appointment (from the
+     * MainCalendar).
      */
     private void initializeDataFields() {
         // Create Observable Lists that can hold DB data
