@@ -15,9 +15,9 @@ public class DBConnection {
     // WGU Database server data
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
-    private static final String ipAddress = "//wgudb.ucertify.com:3306/";
-    private static final String dbName = "WJ07yTl";
-    private static final String password = "53689170977";
+    private static final String ipAddress = "";
+    private static final String dbName = "";
+    private static final String password = "";
 
     // Will build full jdbc connection string
     private static final String jdbcURL = protocol + vendorName + ipAddress + dbName + "?connectionTimeZone=SERVER";
@@ -26,7 +26,7 @@ public class DBConnection {
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
 
     // Username to log into the WGU database
-    private static final String username = "U07yTl";
+    private static final String username = "";
     private static Connection conn = null;
 
     /**
